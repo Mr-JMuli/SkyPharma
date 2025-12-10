@@ -1,0 +1,56 @@
+l{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add Reminder{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'refill_reminders' %}">Reminders</a></li>
+                <li class="breadcrumb-item active">Add Reminder</li>
+            </ol>
+        </nav>
+        <h1>Add Refill Reminder</h1>
+    </div>
+</div>
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body p-4">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="id_medicine_name" class="form-label">Medicine Name</label>
+                            {{ form.medicine_name }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_dosage" class="form-label">Dosage (Optional)</label>
+                            {{ form.dosage }}
+                            <small class="text-muted">e.g., 500mg twice daily</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_reminder_date" class="form-label">Reminder Date</label>
+                            {{ form.reminder_date }}
+                        </div>
+                        <div class="mb-4">
+                            <label for="id_notes" class="form-label">Notes (Optional)</label>
+                            {{ form.notes }}
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-bell-fill me-2"></i>Set Reminder
+                            </button>
+                            <a href="{% url 'refill_reminders' %}" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

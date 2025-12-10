@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Manage Medicines{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="sidebar">
+                <h5 class="mb-4">
+                    <i class="bi bi-speedometer2 text-primary me-2"></i>Admin
+                </h5>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="{% url 'admin_dashboard' %}">
+                        <i class="bi bi-house"></i>Dashboard
+                    </a>
+                    <a class="nav-link active" href="{% url 'admin_medicines' %}">
+                        <i class="bi bi-capsule"></i>Medicines
+                    </a>
+                    <a class="nav-link" href="{% url 'admin_orders' %}">
+                        <i class="bi bi-bag"></i>Orders
+                    </a>
+                    <a class="nav-link" href="{% url 'admin_users' %}">
+                        <i class="bi bi-people"></i>Users
+                    </a>
+                    <hr>
+                    <a class="nav-link" href="{% url 'home' %}">
+                        <i class="bi bi-arrow-left"></i>Back to Site
+                    </a>
+                </nav>
+            </div>
+        </div>
+        
+        <div class="col-md-10">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Manage Medicines</h2>
+                <a href="{% url 'admin_add_medicine' %}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle me-2"></i>Add Medicine
+                </a>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Featured</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for medicine in medicines %}
+                            <tr>
+                                <td>
+                                    {% if medicine.image %}
+                                    <img src="{{ medicine.image.url }}" alt="{{ medicine.name }}" 
+                                         style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;">
+                                    {% else %}
+                                    <div class="bg-light d-flex align-items-center justify-content-center" 
+                                         style="width: 50px; height: 50px; border-radius: 8px;">
+                                        <i class="bi bi-capsule text-muted"></i>
+                                    </div>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ medicine.name }}
+                                    {% if medicine.requires_prescription %}
+                                    <span class="prescription-badge">Rx</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ medicine.category.name }}</td>
+                                <td>KES {{ medicine.price }}</td>
+                                <td>
+                                    {% if medicine.stock < 10 %}
+                                    <span class="text-danger">{{ medicine.stock }}</span>
+                                    {% else %}
+                                    {{ medicine.stock }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if medicine.featured %}
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    {% else %}
+                                    <i class="bi bi-star text-muted"></i>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'admin_edit_medicine' medicine.pk %}" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a href="{% url 'admin_delete_medicine' medicine.pk %}" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center text-muted py-4">
+                                    No medicines found. <a href="{% url 'admin_add_medicine' %}">Add your first medicine</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

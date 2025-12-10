@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ medicine.name }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'medicine_list' %}">Medicines</a></li>
+                <li class="breadcrumb-item active">{{ medicine.name }}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-md-5 mb-4">
+            <div class="card">
+                {% if medicine.image %}
+                <img src="{{ medicine.image.url }}" class="card-img-top" alt="{{ medicine.name }}" style="height: 400px; object-fit: cover;">
+                {% else %}
+                <div class="card-img-top d-flex align-items-center justify-content-center bg-light" style="height: 400px;">
+                    <i class="bi bi-capsule text-muted" style="font-size: 8rem;"></i>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-body p-4">
+                    {% if medicine.requires_prescription %}
+                    <span class="prescription-badge mb-2 d-inline-block">Prescription Required</span>
+                    {% endif %}
+                    
+                    <h1 class="h2 mb-2">{{ medicine.name }}</h1>
+                    <p class="text-muted mb-3">{{ medicine.category.name }}</p>
+                    
+                    <h2 class="text-primary mb-4">KES {{ medicine.price }}</h2>
+                    
+                    <div class="mb-4">
+                        {% if medicine.in_stock %}
+                        <span class="badge bg-success fs-6"><i class="bi bi-check-circle me-1"></i>In Stock ({{ medicine.stock }} available)</span>
+                        {% else %}
+                        <span class="badge bg-danger fs-6"><i class="bi bi-x-circle me-1"></i>Out of Stock</span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5>Description</h5>
+                        <p>{{ medicine.description }}</p>
+                    </div>
+                    
+                    {% if medicine.dosage %}
+                    <div class="mb-4">
+                        <h5>Dosage</h5>
+                        <p>{{ medicine.dosage }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if medicine.manufacturer %}
+                    <div class="mb-4">
+                        <h5>Manufacturer</h5>
+                        <p>{{ medicine.manufacturer }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if medicine.in_stock %}
+                    <a href="{% url 'add_to_cart' medicine.pk %}" class="btn btn-primary btn-lg">
+                        <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                    </a>
+                    {% else %}
+                    <button class="btn btn-secondary btn-lg" disabled>Out of Stock</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% if related_medicines %}
+    <section class="mt-5">
+        <h3 class="section-title">Related Products</h3>
+        <div class="row g-4">
+            {% for med in related_medicines %}
+            <div class="col-md-6 col-lg-3">
+                <div class="card medicine-card h-100">
+                    {% if med.image %}
+                    <img src="{{ med.image.url }}" class="card-img-top" alt="{{ med.name }}">
+                    {% else %}
+                    <div class="card-img-top d-flex align-items-center justify-content-center bg-light" style="height: 200px;">
+                        <i class="bi bi-capsule text-muted" style="font-size: 4rem;"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ med.name }}</h5>
+                        <span class="price">KES {{ med.price }}</span>
+                    </div>
+                    <div class="card-footer bg-white border-0">
+                        <a href="{% url 'medicine_detail' med.pk %}" class="btn btn-outline-primary btn-sm w-100">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</div>
+{% endblock %}

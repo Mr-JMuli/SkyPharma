@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Refill Reminders{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Refill Reminders</li>
+            </ol>
+        </nav>
+        <div class="d-flex justify-content-between align-items-center">
+            <h1>Refill Reminders</h1>
+            <a href="{% url 'add_reminder' %}" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-2"></i>Add Reminder
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container py-4">
+    {% if upcoming %}
+    <div class="alert alert-orange mb-4">
+        <h5 class="mb-2"><i class="bi bi-bell me-2"></i>Upcoming Reminders</h5>
+        <p class="mb-0">You have {{ upcoming.count }} upcoming refill reminder(s).</p>
+    </div>
+    {% endif %}
+    
+    {% if reminders %}
+    <div class="row">
+        {% for reminder in reminders %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card reminder-card h-100 {% if reminder.days_until <= 3 and reminder.days_until >= 0 %}today{% elif reminder.days_until <= 7 and reminder.days_until > 0 %}upcoming{% endif %}">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h5 class="card-title mb-0">{{ reminder.medicine_name }}</h5>
+                        <a href="{% url 'delete_reminder' reminder.id %}" class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </div>
+                    
+                    {% if reminder.dosage %}
+                    <p class="text-muted mb-2"><i class="bi bi-capsule me-2"></i>{{ reminder.dosage }}</p>
+                    {% endif %}
+                    
+                    <p class="mb-2">
+                        <i class="bi bi-calendar me-2"></i>
+                        <strong>{{ reminder.reminder_date|date:"M d, Y" }}</strong>
+                    </p>
+                    
+                    {% if reminder.is_upcoming %}
+                        {% if reminder.days_until == 0 %}
+                        <span class="badge bg-success">Today</span>
+                        {% elif reminder.days_until == 1 %}
+                        <span class="badge bg-warning text-dark">Tomorrow</span>
+                        {% elif reminder.days_until <= 7 %}
+                        <span class="badge bg-info">In {{ reminder.days_until }} days</span>
+                        {% else %}
+                        <span class="badge bg-secondary">In {{ reminder.days_until }} days</span>
+                        {% endif %}
+                    {% else %}
+                    <span class="badge bg-danger">Overdue</span>
+                    {% endif %}
+                    
+                    {% if reminder.notes %}
+                    <hr>
+                    <p class="text-muted small mb-0">{{ reminder.notes }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="bi bi-bell"></i>
+        <h4>No refill reminders</h4>
+        <p class="text-muted">Set reminders to never miss a prescription refill.</p>
+        <a href="{% url 'add_reminder' %}" class="btn btn-primary">Add Your First Reminder</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

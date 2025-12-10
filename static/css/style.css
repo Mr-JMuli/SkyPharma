@@ -1,0 +1,387 @@
+:root {
+    --primary-orange: #FF6B35;
+    --primary-orange-hover: #E55A2B;
+    --light-orange: #FFF3EE;
+    --white: #FFFFFF;
+    --light-gray: #F8F9FA;
+    --dark-gray: #343A40;
+    --text-muted: #6C757D;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--white);
+    color: var(--dark-gray);
+}
+
+.navbar {
+    background-color: var(--white) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--primary-orange) !important;
+}
+
+.navbar-brand i {
+    color: var(--primary-orange);
+}
+
+.nav-link {
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--primary-orange) !important;
+}
+
+.btn-primary {
+    background-color: var(--primary-orange);
+    border-color: var(--primary-orange);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-orange-hover);
+    border-color: var(--primary-orange-hover);
+}
+
+.btn-outline-primary {
+    color: var(--primary-orange);
+    border-color: var(--primary-orange);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-orange);
+    border-color: var(--primary-orange);
+}
+
+.hero-section {
+    background: linear-gradient(135deg, var(--light-orange) 0%, var(--white) 100%);
+    padding: 80px 0;
+}
+
+.carousel-item {
+    height: 400px;
+    background-color: var(--light-orange);
+}
+
+.carousel-item img {
+    object-fit: cover;
+    height: 100%;
+}
+
+.carousel-caption {
+    background: rgba(255, 107, 53, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-img-top {
+    border-radius: 12px 12px 0 0;
+    height: 200px;
+    object-fit: cover;
+}
+
+.medicine-card .card-body {
+    padding: 1.25rem;
+}
+
+.medicine-card .card-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--dark-gray);
+}
+
+.medicine-card .price {
+    color: var(--primary-orange);
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.category-card {
+    text-align: center;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.category-card i {
+    font-size: 3rem;
+    color: var(--primary-orange);
+    margin-bottom: 15px;
+}
+
+.category-card h5 {
+    font-weight: 600;
+}
+
+.section-title {
+    font-weight: 700;
+    margin-bottom: 40px;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background-color: var(--primary-orange);
+}
+
+.footer {
+    background-color: var(--dark-gray);
+    color: var(--white);
+    padding: 50px 0 20px;
+}
+
+.footer h5 {
+    color: var(--primary-orange);
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.footer a {
+    color: #ADB5BD;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: var(--primary-orange);
+}
+
+.social-links a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.social-links a:hover {
+    background-color: var(--primary-orange);
+}
+
+.cart-badge {
+    background-color: var(--primary-orange);
+    color: var(--white);
+    border-radius: 50%;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    position: absolute;
+    top: -5px;
+    right: -10px;
+}
+
+.order-tracking-progress {
+    position: relative;
+    padding: 20px 0;
+}
+
+.progress-step {
+    text-align: center;
+    position: relative;
+}
+
+.progress-step .step-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #E9ECEF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    font-size: 1.25rem;
+    color: var(--text-muted);
+}
+
+.progress-step.active .step-icon {
+    background-color: var(--primary-orange);
+    color: var(--white);
+}
+
+.progress-step.completed .step-icon {
+    background-color: #28A745;
+    color: var(--white);
+}
+
+.dashboard-card {
+    border-left: 4px solid var(--primary-orange);
+}
+
+.dashboard-card .card-body {
+    padding: 1.5rem;
+}
+
+.dashboard-card h3 {
+    font-weight: 700;
+    color: var(--primary-orange);
+    margin-bottom: 5px;
+}
+
+.dashboard-card p {
+    color: var(--text-muted);
+    margin-bottom: 0;
+}
+
+.sidebar {
+    background-color: var(--light-gray);
+    min-height: calc(100vh - 76px);
+    padding: 20px;
+}
+
+.sidebar .nav-link {
+    color: var(--dark-gray);
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    background-color: var(--light-orange);
+    color: var(--primary-orange);
+}
+
+.sidebar .nav-link i {
+    margin-right: 10px;
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.badge-pending {
+    background-color: #FFC107;
+    color: #000;
+}
+
+.badge-confirmed {
+    background-color: #17A2B8;
+}
+
+.badge-shipped {
+    background-color: #007BFF;
+}
+
+.badge-delivered {
+    background-color: #28A745;
+}
+
+.badge-cancelled {
+    background-color: #DC3545;
+}
+
+.reminder-card {
+    border-left: 4px solid var(--primary-orange);
+}
+
+.reminder-card.upcoming {
+    border-left-color: #FFC107;
+}
+
+.reminder-card.today {
+    border-left-color: #28A745;
+}
+
+.alert-orange {
+    background-color: var(--light-orange);
+    border-color: var(--primary-orange);
+    color: var(--dark-gray);
+}
+
+.form-control:focus {
+    border-color: var(--primary-orange);
+    box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+}
+
+.page-header {
+    background-color: var(--light-gray);
+    padding: 30px 0;
+    margin-bottom: 30px;
+}
+
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+.breadcrumb-item a {
+    color: var(--primary-orange);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: #DEE2E6;
+    margin-bottom: 20px;
+}
+
+.empty-state h4 {
+    color: var(--text-muted);
+}
+
+.quantity-input {
+    width: 80px;
+    text-align: center;
+}
+
+.stock-badge {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+}
+
+.prescription-badge {
+    background-color: #DC3545;
+    color: var(--white);
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+    .carousel-item {
+        height: 250px;
+    }
+    
+    .hero-section {
+        padding: 40px 0;
+    }
+    
+    .sidebar {
+        min-height: auto;
+        margin-bottom: 20px;
+    }
+}

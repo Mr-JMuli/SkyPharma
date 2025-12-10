@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Order Confirmed{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card text-center">
+                <div class="card-body p-5">
+                    <div class="mb-4">
+                        <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
+                    </div>
+                    <h1 class="h2 mb-3">Order Placed Successfully!</h1>
+                    <p class="text-muted mb-4">Thank you for your order. We'll notify you when it's shipped.</p>
+                    
+                    <div class="bg-light rounded p-4 mb-4">
+                        <h5>Order #{{ order.id }}</h5>
+                        <p class="mb-0">Total: <strong class="text-primary">KES {{ order.total_amount }}</strong></p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h6>Order Details</h6>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in order.items.all %}
+                                <tr>
+                                    <td>{{ item.medicine.name }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>KES {{ item.total_price }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h6>Shipping Address</h6>
+                        <p class="text-muted">{{ order.shipping_address }}</p>
+                        <p class="text-muted">Phone: {{ order.phone }}</p>
+                    </div>
+                    
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="{% url 'order_tracking' order.id %}" class="btn btn-primary">
+                            <i class="bi bi-geo-alt me-2"></i>Track Order
+                        </a>
+                        <a href="{% url 'medicine_list' %}" class="btn btn-outline-primary">
+                            Continue Shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

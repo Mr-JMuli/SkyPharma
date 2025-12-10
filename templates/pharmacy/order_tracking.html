@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Order Tracking{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'order_list' %}">Orders</a></li>
+                <li class="breadcrumb-item active">Order #{{ order.id }}</li>
+            </ol>
+        </nav>
+        <h1>Order #{{ order.id }}</h1>
+    </div>
+</div>
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Delivery Status</h5>
+                </div>
+                <div class="card-body">
+                    {% if order.status == 'cancelled' %}
+                    <div class="alert alert-danger text-center">
+                        <i class="bi bi-x-circle me-2"></i>This order has been cancelled.
+                    </div>
+                    {% else %}
+                    <div class="order-tracking-progress">
+                        <div class="row">
+                            <div class="col-3 progress-step {% if order.status_percentage >= 25 %}completed{% endif %}">
+                                <div class="step-icon">
+                                    <i class="bi bi-clipboard-check"></i>
+                                </div>
+                                <p class="small">Order Placed</p>
+                            </div>
+                            <div class="col-3 progress-step {% if order.status_percentage >= 50 %}completed{% endif %} {% if order.status == 'confirmed' %}active{% endif %}">
+                                <div class="step-icon">
+                                    <i class="bi bi-box-seam"></i>
+                                </div>
+                                <p class="small">Confirmed</p>
+                            </div>
+                            <div class="col-3 progress-step {% if order.status_percentage >= 75 %}completed{% endif %} {% if order.status == 'shipped' %}active{% endif %}">
+                                <div class="step-icon">
+                                    <i class="bi bi-truck"></i>
+                                </div>
+                                <p class="small">Shipped</p>
+                            </div>
+                            <div class="col-3 progress-step {% if order.status_percentage >= 100 %}completed{% endif %} {% if order.status == 'delivered' %}active{% endif %}">
+                                <div class="step-icon">
+                                    <i class="bi bi-house-check"></i>
+                                </div>
+                                <p class="small">Delivered</p>
+                            </div>
+                        </div>
+                        <div class="progress mt-3" style="height: 8px;">
+                            <div class="progress-bar bg-success" style="width: {{ order.status_percentage }}%;"></div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Order Items</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in order.items.all %}
+                            <tr>
+                                <td>{{ item.medicine.name }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>KES {{ item.price }}</td>
+                                <td>KES {{ item.total_price }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-end"><strong>Total</strong></td>
+                                <td><strong class="text-primary">KES {{ order.total_amount }}</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Order Details</h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2">
+                        <strong>Order Date:</strong><br>
+                        {{ order.created_at|date:"M d, Y H:i" }}
+                    </p>
+                    <p class="mb-2">
+                        <strong>Status:</strong><br>
+                        <span class="badge badge-{{ order.status }}">{{ order.get_status_display }}</span>
+                    </p>
+                    <p class="mb-0">
+                        <strong>Total:</strong><br>
+                        <span class="text-primary fs-5">KES {{ order.total_amount }}</span>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Shipping Address</h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2">{{ order.shipping_address }}</p>
+                    <p class="mb-0"><i class="bi bi-telephone me-2"></i>{{ order.phone }}</p>
+                    {% if order.notes %}
+                    <hr>
+                    <p class="text-muted small mb-0"><strong>Notes:</strong> {{ order.notes }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="sidebar">
+                <h5 class="mb-4">
+                    <i class="bi bi-speedometer2 text-primary me-2"></i>Admin
+                </h5>
+                <nav class="nav flex-column">
+                    <a class="nav-link active" href="{% url 'admin_dashboard' %}">
+                        <i class="bi bi-house"></i>Dashboard
+                    </a>
+                    <a class="nav-link" href="{% url 'admin_medicines' %}">
+                        <i class="bi bi-capsule"></i>Medicines
+                    </a>
+                    <a class="nav-link" href="{% url 'admin_orders' %}">
+                        <i class="bi bi-bag"></i>Orders
+                    </a>
+                    <a class="nav-link" href="{% url 'admin_users' %}">
+                        <i class="bi bi-people"></i>Users
+                    </a>
+                    <hr>
+                    <a class="nav-link" href="{% url 'home' %}">
+                        <i class="bi bi-arrow-left"></i>Back to Site
+                    </a>
+                </nav>
+            </div>
+        </div>
+        
+        <div class="col-md-10">
+            <h2 class="mb-4">Dashboard Overview</h2>
+            
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h3>{{ total_users }}</h3>
+                                    <p>Total Users</p>
+                                </div>
+                                <i class="bi bi-people text-primary" style="font-size: 2rem;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h3>{{ total_orders }}</h3>
+                                    <p>Total Orders</p>
+                                </div>
+                                <i class="bi bi-bag text-primary" style="font-size: 2rem;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h3>{{ total_medicines }}</h3>
+                                    <p>Medicines</p>
+                                </div>
+                                <i class="bi bi-capsule text-primary" style="font-size: 2rem;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h3>KES {{ total_sales }}</h3>
+                                    <p>Total Sales</p>
+                                </div>
+                                <i class="bi bi-cash-stack text-primary" style="font-size: 2rem;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Recent Orders</h5>
+                            <a href="{% url 'admin_orders' %}" class="btn btn-sm btn-outline-primary">View All</a>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in recent_orders %}
+                                    <tr>
+                                        <td>#{{ order.id }}</td>
+                                        <td>{{ order.user.username }}</td>
+                                        <td>KES {{ order.total_amount }}</td>
+                                        <td><span class="badge badge-{{ order.status }}">{{ order.get_status_display }}</span></td>
+                                        <td>{{ order.created_at|date:"M d" }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted">No orders yet</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0">Low Stock Alert</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                {% for medicine in low_stock %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ medicine.name }}
+                                    <span class="badge bg-danger">{{ medicine.stock }} left</span>
+                                </li>
+                                {% empty %}
+                                <li class="list-group-item text-muted">All items are well stocked</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

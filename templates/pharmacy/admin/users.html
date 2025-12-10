@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Manage Users{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="sidebar">
+                <h5 class="mb-4">
+                    <i class="bi bi-speedometer2 text-primary me-2"></i>Admin
+                </h5>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="{% url 'admin_dashboard' %}">
+                        <i class="bi bi-house"></i>Dashboard
+                    </a>
+                    <a class="nav-link" href="{% url 'admin_medicines' %}">
+                        <i class="bi bi-capsule"></i>Medicines
+                    </a>
+                    <a class="nav-link" href="{% url 'admin_orders' %}">
+                        <i class="bi bi-bag"></i>Orders
+                    </a>
+                    <a class="nav-link active" href="{% url 'admin_users' %}">
+                        <i class="bi bi-people"></i>Users
+                    </a>
+                    <hr>
+                    <a class="nav-link" href="{% url 'home' %}">
+                        <i class="bi bi-arrow-left"></i>Back to Site
+                    </a>
+                </nav>
+            </div>
+        </div>
+        
+        <div class="col-md-10">
+            <h2 class="mb-4">Manage Users</h2>
+            
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Name</th>
+                                <th>Joined</th>
+                                <th>Orders</th>
+                                <th>Admin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.first_name }} {{ user.last_name }}</td>
+                                <td>{{ user.date_joined|date:"M d, Y" }}</td>
+                                <td>{{ user.orders.count }}</td>
+                                <td>
+                                    {% if user.is_staff %}
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                    {% else %}
+                                    <i class="bi bi-x-circle text-muted"></i>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
